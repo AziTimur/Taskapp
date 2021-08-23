@@ -1,4 +1,4 @@
-package com.example.taskapp.ui;
+package com.example.taskapp.ui.home;
 
 import android.os.Bundle;
 
@@ -18,10 +18,14 @@ import com.example.taskapp.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class TaskFragment extends Fragment {
 
-        private EditText editText;
+    private EditText editText;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,7 +37,7 @@ public class TaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        editText=view.findViewById(R.id.ediText);
+        editText = view.findViewById(R.id.ediText);
         view.findViewById(R.id.btnSave).setOnClickListener(v -> {
             save();
         });
@@ -41,12 +45,20 @@ public class TaskFragment extends Fragment {
     }
 
     private void save() {
-        String text=editText.getText().toString();
-        Bundle bundle=new Bundle();
-        bundle.putString("text",text);
-        getParentFragmentManager().setFragmentResult("rk_task",bundle);
+        String text = editText.getText().toString();
+        if(text.isEmpty()){
+            return;
+        }
+       Date date = Calendar.getInstance().getTime();
+        String strDate = date.toString();
+
+        Task task = new Task(text, strDate);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("text", task);
+        getParentFragmentManager().setFragmentResult("rk_task", bundle);
         close();
     }
+
     private void close() {
         NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment_activity_main);
         navController.navigateUp();

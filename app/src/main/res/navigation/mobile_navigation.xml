@@ -24,7 +24,7 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/taskFragment"
-        android:name="com.example.taskapp.ui.TaskFragment"
+        android:name="com.example.taskapp.ui.home.TaskFragment"
         android:label="Add New Task"
         tools:layout="@layout/fragment_task" />
     <fragment

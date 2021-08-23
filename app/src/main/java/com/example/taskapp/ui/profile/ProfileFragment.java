@@ -25,7 +25,6 @@ import static android.app.Activity.RESULT_OK;
 public class ProfileFragment extends Fragment {
 
     int SELECT_PICTURE = 2;
-    ImageView IVPreviewImage;
     ImageView image;
 
     @Override
@@ -53,7 +52,7 @@ public class ProfileFragment extends Fragment {
 
     public void choiser(){
         Intent intent = new Intent();
-        intent.setAction(android.content.Intent.ACTION_GET_CONTENT);
+        intent.setAction(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, SELECT_PICTURE);
     }
@@ -61,8 +60,6 @@ public class ProfileFragment extends Fragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
             if (requestCode == SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 Log.e("test2", " =" + selectedImageUri);
