@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:orientation="vertical"
+    android:background="@drawable/taskback"
     tools:context=".ui.home.TaskFragment">
 
     <EditText
@@ -20,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#92A8A8"
         android:text="Save"/>
 
 

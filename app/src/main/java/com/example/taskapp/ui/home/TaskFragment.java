@@ -1,9 +1,11 @@
 package com.example.taskapp.ui.home;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,6 +20,10 @@ import com.example.taskapp.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,6 +40,7 @@ public class TaskFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -44,15 +51,18 @@ public class TaskFragment extends Fragment {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void save() {
         String text = editText.getText().toString();
         if(text.isEmpty()){
             return;
         }
-       Date date = Calendar.getInstance().getTime();
-        String strDate = date.toString();
+       long date = System.currentTimeMillis();
+        ZonedDateTime dateTime = Instant.ofEpochMilli(date).atZone(ZoneId.of("Asia/Bishkek"));
+        String form = dateTime.format(DateTimeFormatter.ofPattern("HH:mm dd MMM yyyy"));
 
-        Task task = new Task(text, strDate);
+
+        Task task = new Task(text, form);
         Bundle bundle = new Bundle();
         bundle.putSerializable("text", task);
         getParentFragmentManager().setFragmentResult("rk_task", bundle);

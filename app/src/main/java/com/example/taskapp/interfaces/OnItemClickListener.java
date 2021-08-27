@@ -1,4 +1,4 @@
-package com.example.taskapp.ui.interfaces;
+package com.example.taskapp.interfaces;
 
 public interface OnItemClickListener {
     void onClick(int position);

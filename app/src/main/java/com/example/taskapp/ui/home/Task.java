@@ -5,8 +5,7 @@ import android.provider.ContactsContract;
 import java.io.Serializable;
 
 public class Task implements Serializable {
-    private String title;
-    private String createAt;
+    private String title,createAt;
 
     public String getTitle() {
         return title;

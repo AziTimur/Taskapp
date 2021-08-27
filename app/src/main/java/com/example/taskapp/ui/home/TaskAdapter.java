@@ -1,37 +1,32 @@
 package com.example.taskapp.ui.home;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskapp.R;
-import com.example.taskapp.ui.interfaces.OnItemClickListener;
+import com.example.taskapp.interfaces.OnItemClickListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     ArrayList<Task> list = new ArrayList<>();
     private int index;
 
+
     public void setList(ArrayList<Task> list) {
         this.list = list;
 
     }
 
-    itemClickListener itemClickListener;
+    private OnItemClickListener itemClickListener;
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
@@ -43,9 +38,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         holder.bind(list.get(position));
         if (position % 2 == 0) {
-            holder.itemView.setBackgroundColor(Color.BLACK);
+            holder.itemView.setBackgroundColor(Color.parseColor("#FF03DAC5"));
         } else {
-            holder.itemView.setBackgroundColor(Color.WHITE);
+            holder.itemView.setBackgroundColor(Color.parseColor("#FF018786"));
         }
     }
 
@@ -59,7 +54,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         notifyDataSetChanged();
     }
 
-    public void setOnItemClickListener(itemClickListener itemClickListener) {
+    public void setItemClickListener(OnItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
     }
 
@@ -76,36 +71,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
             super(itemView);
 
             itemView.setOnClickListener(v -> {
+            itemClickListener.onClick(getAdapterPosition());
+
+            });
+
+            itemView.setOnLongClickListener(v -> {
+                itemClickListener.onLongClick(getAdapterPosition());
+               return true;
             });
             data = itemView.findViewById(R.id.data_tv);
             textView = itemView.findViewById(R.id.task_tv);
+
         }
 
         public void bind(Task text) {
             textView.setText(text.getTitle());
             data.setText(text.getCreateAt());
-            itemView.setOnLongClickListener(v -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this.itemView.getContext());
-                builder.setTitle("Удалено")
-                        .setIcon(R.drawable.ic_launcher_background)
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                       //         itemClickListener.onLong(getAdapterPosition());
-                                Toast.makeText(itemView.getContext(), "Ok", Toast.LENGTH_SHORT).show();
-                            }
 
-                        }).show();
-                      /*  .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(itemView.getContext(), "Ok", Toast.LENGTH_SHORT).show();
-                            }
-                        }).show();*/
-                itemClickListener.onLong(getAdapterPosition());
 
-                return true;
-            });
         }
     }
 

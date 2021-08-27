@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="16dp"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/imageBoard"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:background="@color/cardview_shadow_end_color"        />
+    <TextView
+        android:id="@+id/titleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:layout_margin="28dp"
+        android:text="Title"/>
+    <TextView
+        android:id="@+id/descTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:gravity="center"
+        android:text="desc/"/>
+    <Button
+        android:id="@+id/startBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        android:backgroundTint="@color/cardview_dark_background"
+        android:layout_margin="40dp"/>
+
+</LinearLayout>
