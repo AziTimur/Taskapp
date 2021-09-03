@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.taskapp.R;
 import com.example.taskapp.databinding.FragmentBoardBinding;
+import com.example.taskapp.ui.Prefs;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import org.jetbrains.annotations.NotNull;
@@ -38,6 +39,17 @@ public class BoardFragment extends Fragment {
         ViewPager2 viewPager2 = view.findViewById(R.id.viePacer);
         BoardAdapter adapter = new BoardAdapter();
         viewPager2.setAdapter(adapter);
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if (position == 2){
+                    binding.skipBtn.setVisibility(View.INVISIBLE);
+                }else {
+                    binding.skipBtn.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(),
                 new OnBackPressedCallback(true) {
                     @Override
@@ -45,9 +57,12 @@ public class BoardFragment extends Fragment {
                         requireActivity().finish();
                     }
                 });
+
         binding.skipBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Prefs prefs=new Prefs(requireContext());
+                prefs.saveBoardState();
                 NavController navController = Navigation.findNavController((Activity) v.getContext(),
                         R.id.nav_host_fragment_activity_main);
                 navController.navigateUp();

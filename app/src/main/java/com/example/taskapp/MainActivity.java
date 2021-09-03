@@ -1,8 +1,10 @@
 package com.example.taskapp;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 
+import com.example.taskapp.ui.Prefs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+        Prefs prefs= new Prefs(this);
+                if(prefs.isBoardShown())
         navController.navigate(R.id.boardFragment);
 
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
