@@ -15,6 +15,7 @@ import com.example.taskapp.interfaces.OnItemClickListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     ArrayList<Task> list = new ArrayList<>();
@@ -48,6 +49,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public int getItemCount() {
         return list.size();
     }
+    public  void addItems(List<Task>tasks){
+        list.addAll(tasks);
+        notifyDataSetChanged();
+    }
+    public  void deleteItems(List<Task>tasks){
+        list.removeAll(tasks);
+        notifyDataSetChanged();
+    }
+
+
 
     public void addItem(Task task) {
         list.add(task);
@@ -61,6 +72,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public void removeItem(int position) {
         this.list.remove(position);
         notifyDataSetChanged();
+    }
+
+    public Task getItem(int position) {
+        return list.get(position);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

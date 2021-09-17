@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.taskapp.App;
 import com.example.taskapp.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -63,6 +64,7 @@ public class TaskFragment extends Fragment {
 
 
         Task task = new Task(text, form);
+        App.getAppDataBase().taskDao().insert(task);
         Bundle bundle = new Bundle();
         bundle.putSerializable("text", task);
         getParentFragmentManager().setFragmentResult("rk_task", bundle);

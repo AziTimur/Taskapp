@@ -14,6 +14,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.taskapp.R;
 import com.example.taskapp.databinding.ItemBoardBinding;
 
@@ -30,7 +31,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
             "Come on quickly look at my application", "If you want to use my app, then you need to register"};
     private int[] imgs = new int[]{R.raw.robot, R.raw.using, R.raw.register};
 
-    @NotNull
+    @NotNull                                           
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board, parent, false);
@@ -57,7 +58,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textTitle, textDesc;
-        private ImageView imagesBoard;
+        private LottieAnimationView imagesBoard;
 
 
         public ViewHolder(@NonNull @NotNull View itemView) {
@@ -73,7 +74,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.ViewHolder> 
         public void bind(int position) {
             textTitle.setText(title[position]);
             textDesc.setText(desc[position]);
-            imagesBoard.setImageResource(imgs[position]);
+            imagesBoard.setAnimation(imgs[position]);
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override

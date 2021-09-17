@@ -20,6 +20,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskapp.App;
 import com.example.taskapp.R;
 import com.example.taskapp.databinding.FragmentHomeBinding;
 import com.example.taskapp.interfaces.OnItemClickListener;
@@ -39,8 +40,8 @@ public class HomeFragment extends Fragment implements TaskAdapter.itemClickListe
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter=new TaskAdapter();
-
-
+        adapter.addItems(App.getAppDataBase().taskDao().getAll());
+        adapter.deleteItems(App.getAppDataBase().taskDao().getAll());
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -60,9 +61,10 @@ public class HomeFragment extends Fragment implements TaskAdapter.itemClickListe
         getParentFragmentManager().setFragmentResultListener("rk_task", getViewLifecycleOwner(), new FragmentResultListener() {
             @Override
             public void onFragmentResult(@NonNull @NotNull String requestKey, @NonNull @NotNull Bundle result) {
-                Task task = (Task) result.getSerializable("text");
+                /*Task task = (Task) result.getSerializable("text");
                 Log.e("Home","text="+task);
-                adapter.addItem(task);
+                adapter.addItem(task);*/
+
             }
         });
         initList();
@@ -79,14 +81,21 @@ public class HomeFragment extends Fragment implements TaskAdapter.itemClickListe
 
             @Override
             public void onLongClick(int position) {
+                Task task=adapter.getItem(position);
+                showAlert(task);
+            }
+
+            private void showAlert(Task task) {
                 new AlertDialog.Builder(requireActivity())
                         .setMessage("delete?")
                         .setPositiveButton("YES", (dialog, which) -> {
-                            adapter.removeItem(position);
+                            App.getAppDataBase().taskDao().delete(task);
+                            adapter.removeItem(task);
                             Toast.makeText(getContext(),"deleted",Toast.LENGTH_SHORT).show();
                         })
                         .setNegativeButton("Cancel",null)
                         .show();
+            }
             }
         });
 
