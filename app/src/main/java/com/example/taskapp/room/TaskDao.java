@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.taskapp.ui.home.Task;
 
@@ -18,5 +19,7 @@ public  interface TaskDao {
     List<Task> getAll();
 
     @Insert
-    abstract void insert(Task task);
+     void insert(Task task);
+    @Update
+     void update(Task task);
 }

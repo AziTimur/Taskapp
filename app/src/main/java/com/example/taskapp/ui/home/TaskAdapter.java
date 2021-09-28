@@ -18,16 +18,41 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
-    ArrayList<Task> list = new ArrayList<>();
-    private int index;
 
+    ArrayList<Task> list = new ArrayList<>();
+    private ItemClickListener itemClickListener;
+
+
+    public void setItemClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
 
     public void setList(ArrayList<Task> list) {
         this.list = list;
+        notifyDataSetChanged();
 
     }
 
-    private OnItemClickListener itemClickListener;
+    public void addItems(List<Task> tasks) {
+        list.addAll(tasks);
+        notifyDataSetChanged();
+    }
+
+    public void deleteItems(List<Task> tasks) {
+        list.removeAll(tasks);
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(Task task) {
+        int pos = list.indexOf(task);
+        this.list.remove(task);
+        notifyItemRemoved(pos);
+    }
+
+    public Task getItem(int position) {
+        return list.get(position);
+    }
+
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
@@ -49,34 +74,17 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
     public int getItemCount() {
         return list.size();
     }
-    public  void addItems(List<Task>tasks){
-        list.addAll(tasks);
-        notifyDataSetChanged();
-    }
-    public  void deleteItems(List<Task>tasks){
-        list.removeAll(tasks);
-        notifyDataSetChanged();
-    }
-
 
 
     public void addItem(Task task) {
         list.add(task);
         notifyDataSetChanged();
     }
-
-    public void setItemClickListener(OnItemClickListener itemClickListener) {
-        this.itemClickListener = itemClickListener;
+    public void setItem(int pos,Task task){
+        list.set(pos, task);
+        notifyItemChanged(pos);
     }
 
-    public void removeItem(int position) {
-        this.list.remove(position);
-        notifyDataSetChanged();
-    }
-
-    public Task getItem(int position) {
-        return list.get(position);
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -85,30 +93,33 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 
-            itemView.setOnClickListener(v -> {
-            itemClickListener.onClick(getAdapterPosition());
-
-            });
-
-            itemView.setOnLongClickListener(v -> {
-                itemClickListener.onLongClick(getAdapterPosition());
-               return true;
-            });
             data = itemView.findViewById(R.id.data_tv);
             textView = itemView.findViewById(R.id.task_tv);
 
         }
 
-        public void bind(Task text) {
-            textView.setText(text.getTitle());
-            data.setText(text.getCreateAt());
+        public void bind(Task task) {
+            textView.setText(task.getTitle());
+            data.setText(task.getCreateAt());
+
+            itemView.setOnClickListener(v -> {
+                itemClickListener.onClick(getAdapterPosition());
+
+            });
+
+            itemView.setOnLongClickListener(v -> {
+                itemClickListener.onLong(getAdapterPosition(), task);
+                return true;
+            });
 
 
         }
     }
 
-    interface itemClickListener {
-        void onLong(int position);
+   public interface ItemClickListener {
+        void onClick(int position);
+
+        void onLong(int position, Task task);
     }
 
 }
